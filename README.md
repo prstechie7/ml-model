@@ -2,27 +2,27 @@
 
 An end-to-end, field-grade autonomous robotics and precision agriculture IoT suite developed for the **ESP32 microcontroller** (MicroPython) and companion edge computing platforms (Raspberry Pi, NVIDIA Jetson, Linux/macOS).
 
-This repository contains three production-hardened subsystems designed to work cohesively or independently:
+This repository contains three clean, specialized subsystems:
 
 | File | Subsystem | Platform | Primary Purpose |
 | :--- | :--- | :--- | :--- |
-| [`esp32_robot_advanced.py`](./esp32_robot_advanced.py) | **Heavy-Duty Chassis Controller** | ESP32 (MicroPython) | Dual BTS7960 (43A) motor drive, FS-i6X RC arcade mixing, HC-SR04 proportional braking, Wi-Fi web deck, and autonomous roaming. |
-| [`agribot_sensor_system.py`](./agribot_sensor_system.py) | **Soil & Climate Telemetry Station** | ESP32 (MicroPython) | Triple soil moisture sensing, DHT11 climate tracking, 11dB ADC attenuation, and Google Sheets cloud logging with HTTP 302 redirect resolution. |
-| [`agribot_camera_advanced.py`](./agribot_camera_advanced.py) | **Vision & Field Inspection System** | Edge Linux / SBC / PC | Stable V4L2 webcam capture, buffer flushing, OpenCV Laplacian blur detection, exposure auditing, and CSV metadata logging. |
+| [`autonomous_robot.py`](./autonomous_robot.py) | **Robot Motion & Navigation** | ESP32 (MicroPython) | Dual BTS7960 (43A) motor drive, FS-i6X RC arcade mixing, HC-SR04 proportional braking, Wi-Fi web deck, and autonomous roaming. |
+| [`sensor_telemetry.py`](./sensor_telemetry.py) | **Soil & Climate Telemetry** | ESP32 (MicroPython) | Triple soil moisture sensing, DHT11 climate tracking, 11dB ADC attenuation, and Google Sheets cloud logging with HTTP 302 redirect resolution. |
+| [`camera_capture.py`](./camera_capture.py) | **Vision & Field Image Capture** | Edge Linux / SBC / PC | Stable V4L2 webcam capture, buffer flushing, OpenCV Laplacian blur detection, exposure auditing, and CSV metadata logging. |
 
 ---
 
 ## 📑 Table of Contents
-- [1. Subsystem 1: Advanced ESP32 Robot Platform (`esp32_robot_advanced.py`)](#1-subsystem-1-advanced-esp32-robot-platform)
+- [1. Subsystem 1: Robot Motion & Navigation (`autonomous_robot.py`)](#1-subsystem-1-robot-motion--navigation)
   - [Key Architecture & Features](#key-architecture--features)
   - [Hardware Pinout & Connections](#hardware-pinout--connections)
   - [Operational Modes & Kinematics](#operational-modes--kinematics)
   - [Proportional Deceleration Math](#proportional-deceleration-math)
-- [2. Subsystem 2: Precision Agribot Sensor Telemetry (`agribot_sensor_system.py`)](#2-subsystem-2-precision-agribot-sensor-telemetry)
+- [2. Subsystem 2: Soil & Climate Telemetry (`sensor_telemetry.py`)](#2-subsystem-2-soil--climate-telemetry)
   - [Critical Engineering Enhancements](#critical-engineering-enhancements)
   - [Wiring & ADC Configuration](#wiring--adc-configuration)
   - [Cloud Integration (Google Apps Script)](#cloud-integration-google-apps-script)
-- [3. Subsystem 3: Field Inspection Camera System (`agribot_camera_advanced.py`)](#3-subsystem-3-field-inspection-camera-system)
+- [3. Subsystem 3: Vision & Field Image Capture (`camera_capture.py`)](#3-subsystem-3-vision--field-image-capture)
   - [Core Vision Capabilities](#core-vision-capabilities)
   - [Buffer Latency & Quality Metrics](#buffer-latency--quality-metrics)
   - [Directory & CSV Audit Schema](#directory--csv-audit-schema)
@@ -31,8 +31,8 @@ This repository contains three production-hardened subsystems designed to work c
 
 ---
 
-## 1. Subsystem 1: Advanced ESP32 Robot Platform
-**File:** `esp32_robot_advanced.py`
+## 1. Subsystem 1: Robot Motion & Navigation
+**File:** `autonomous_robot.py`
 
 High-current robotic chassis locomotion system powered by dual **BTS7960 43A H-Bridge motor drivers**, designed to eliminate common hardware pitfalls like microcontroller brownout reboots, gear stripping, and sensor ghost echoes.
 
@@ -98,8 +98,8 @@ $$\text{Speed Scalar} =
 
 ---
 
-## 2. Subsystem 2: Precision Agribot Sensor Telemetry
-**File:** `agribot_sensor_system.py`
+## 2. Subsystem 2: Soil & Climate Telemetry
+**File:** `sensor_telemetry.py`
 
 Field IoT environmental monitoring station collecting multi-depth soil moisture data and ambient temperature/humidity, forwarding live telemetry to Google Sheets.
 
@@ -136,8 +136,8 @@ $$\text{Moisture \%} = \text{constrain}\left(\frac{\text{Raw} - \text{DRY}}{\tex
 
 ---
 
-## 3. Subsystem 3: Field Inspection Camera System
-**File:** `agribot_camera_advanced.py`
+## 3. Subsystem 3: Vision & Field Image Capture
+**File:** `camera_capture.py`
 
 Edge computer vision capture and quality auditing system written in Python with OpenCV.
 
@@ -178,10 +178,10 @@ timestamp,filename,resolution,blur_score,brightness,quality_status,file_size_kb
 2. **Upload Files** using Thonny IDE or `mpremote`:
    ```bash
    # Upload robot firmware
-   mpremote cp esp32_robot_advanced.py :main.py
+   mpremote cp autonomous_robot.py :main.py
 
    # OR upload sensor firmware
-   mpremote cp agribot_sensor_system.py :main.py
+   mpremote cp sensor_telemetry.py :main.py
    ```
 
 ### Running the Inspection Camera on Edge Host (Pi / Jetson / PC):
@@ -190,7 +190,7 @@ timestamp,filename,resolution,blur_score,brightness,quality_status,file_size_kb
 pip install opencv-python numpy
 
 # Launch camera pipeline
-python3 agribot_camera_advanced.py
+python3 camera_capture.py
 ```
 
 ---
