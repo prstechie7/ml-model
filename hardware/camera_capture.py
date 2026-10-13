@@ -375,5 +375,10 @@ def main():
         print("✓ Camera released safely.")
 
 
+def start_camera_stream():
+    """Entry point for master orchestrator thread."""
+    main()
+
+
 if __name__ == "__main__":
     main()

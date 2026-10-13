@@ -814,6 +814,13 @@ def main():
         time.sleep(0.002)
 
 
+def run_robot_loop(calling_agent=None):
+    """Entry point for master orchestrator."""
+    if calling_agent:
+        print("[RADXA_ROVER] Emergency Calling Watchdog linked to chassis.")
+    main()
+
+
 if __name__ == "__main__":
     try:
         main()

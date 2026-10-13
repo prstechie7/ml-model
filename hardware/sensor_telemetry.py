@@ -322,6 +322,11 @@ def main():
         time.sleep(LOOP_INTERVAL_SEC)
 
 
+def start_telemetry_loop():
+    """Entry point for master orchestrator thread."""
+    main()
+
+
 if __name__ == "__main__":
     try:
         main()
